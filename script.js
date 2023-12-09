@@ -3,22 +3,26 @@ import {parse} from "https://www.unpkg.com/csv-parse@5.5.3/dist/esm/sync.js";
 import { parseSheet } from "./parse-sheet.js";
 import {weeklyReportHTML, summaryReportHTML} from "./templates.js";
 
+import {setDataToUrl, getDataFromUrl} from "./storage.js";
+
+function setUp(){
+  const students = getDataFromUrl();
+  if(students) {
+    displayStudentList(students);
+  }
+}
+setUp();
 
 function processData() {
   const rawData = document.getElementById('courseData').value;
   const input = rawData;
   const options = {delimiter: "\t"};
   const data = parse(input, options);
-  console.log(data);
-  const weekAndPreworkHeadings = data[0];
-  const topicHeadings = data[1];
-  //const rows = rawData.split('\n').map((row) => row.split('\t'));
-  // const weekAndPreworkHeadings = rows[3].slice(2); // Starting from C4
-  // const topicHeadings = rows[4].slice(2); // Starting from C5
-  const students = parseSheet(data)
+  const students = parseSheet(data);
+
   console.log(students);
 
-
+  setDataToUrl(students);
   displayStudentList(students);
 }
 
