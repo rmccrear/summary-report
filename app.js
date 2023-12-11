@@ -115,7 +115,10 @@ class PerformanceForWeek {
                 this.result = 'HARD FAIL';
                 // estimate catch up time
                 this.catchupEstimate += 180;
-            } else if (performanceData.split(" of ")) {
+            }
+            else if(/NOT GRADED/i.test(performanceData)) {
+                this.result = 'NOT GRADED';
+            } else if (/ of /i.test(performanceData)) {
                 const p = performanceData.split(" of ");
                 console.log(p);
                 if (p.length === 2) {
@@ -225,7 +228,7 @@ class StudentBriefReport {
                     id="student-brief-report-${student.id}"
                     data-id="${student.id}"
                     >
-                    ${student.firstName} ${student.lastName}
+                    ${student.studentName}
                      (${Math.round(student.catchupEstimate/60)} hours behind)
                 </button>
             </a>
@@ -244,7 +247,7 @@ class StudentReport {
             const weekData = student.weeklyData[weekIdx];
             const s = student;
             const wr = {
-                student: {firstName: s.firstName, lastName: s.lastName},
+                student: {firstName: s.firstName, lastName: s.lastName, studentName: s.studentName},
                 week: weekIdx,
                 ...weekData,
             };
@@ -274,7 +277,7 @@ class WeeklyReport {
         if(student && attendance && performance && week) {
             const header = `
             Week: ${week}
-            ${student.firstName} ${student.lastName}
+            ${student.studentName}
         `;
             const body = [
                 `Attendance: ${attendance.attended} / ${attendance.dayCount}`,
@@ -292,7 +295,7 @@ class WeeklyReport {
             }
             return cardHTML(header, body);
         } else {
-            return `<p>No results for ${student?.firstName} ${student?.lastName}</p>`
+            return `<p>No results for ${student?.studentName}</p>`
         }
 
     }
