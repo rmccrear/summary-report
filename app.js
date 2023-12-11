@@ -67,10 +67,10 @@ async function setUp() {
 
 class AttendanceForWeek {
     static isValid(attendanceHeader, attendenceContent) {
-        return /^week([1-9]+$)/i.test(attendanceHeader);
+        return /^week([1-9]+)$/i.test(attendanceHeader);
     }
     constructor(attendanceHeader, attendenceContent) {
-        const regEx = /^week([1-9]+$)/i;
+        const regEx = /^week([1-9]+)$/i;
         const m = attendanceHeader.match(regEx);
         this.catchupEstimate = 0;
         if (m) {
@@ -290,7 +290,7 @@ class WeeklyReport {
             }
             if(this.catchupEstimate) {
                 body.push(`
-                    Estimate to catchup this week: ${Math.round(this.catchupEstimate/60)} hours.
+                    Estimate to catchup this week: ${Math.round(catchupEstimate/60)} hours.
                 `);
             }
             return cardHTML(header, body);
