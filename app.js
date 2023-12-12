@@ -200,8 +200,10 @@ class Student {
                 const attdTime = weeklyData?.attendance?.catchupEstimate;
                 const perfTime = weeklyData?.performance?.catchupEstimate;
                 if(attdTime) {
-                    this.catchupEstimate += attdTime;
-                    weeklyData.catchupEstimate += attdTime;
+                    if(weeklyData?.performance?.result !== 'PASS') {
+                      this.catchupEstimate += attdTime;
+                      weeklyData.catchupEstimate += attdTime;
+                    }
                 }
                 if(perfTime) {
                     this.catchupEstimate += perfTime;
